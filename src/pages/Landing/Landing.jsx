@@ -22,7 +22,7 @@ export default () => {
     if (!clicked) {
       setClicked(true)
     } else {
-        navigate('/register')
+        navigate('/login')
       }
     }
 

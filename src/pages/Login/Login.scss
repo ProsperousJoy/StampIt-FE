@@ -1,0 +1,21 @@
+.Login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0 auto;
+
+    .LoginContents{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 75vh;
+        width: 25em;
+        margin: 0 auto;
+        gap: 2em;
+        border: 1px solid #d9d9d9;
+        border-radius: 25px;
+    }
+}

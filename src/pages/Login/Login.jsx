@@ -1,4 +1,4 @@
-import './Register.scss'
+import './Login.scss'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -8,12 +8,11 @@ import Button from '../../components/buttons/Button/Button'
 import Header from '../../components/texts/Header/Header'
 import Paragraph from '../../components/texts/Paragraph/Paragraph.jsx'
 
-import { register } from '../../helpers/api.js'
+import { login } from '../../helpers/api.js'
 
 export default () => {
 
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: ''
     })
@@ -22,8 +21,7 @@ export default () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const registerFormData = [
-        { placeholder: "Name", key: "name" },
+    const loginFormData = [
         { placeholder: "E-Mail", key: "email" },
         { placeholder: "Password", key: "password" }
     ]
@@ -35,38 +33,39 @@ export default () => {
         }))
     }
 
-    const handleRegister = async () => {
+    const handleLogin = async () => {
         setIsSubmitting(true)
         try {
-            const response = await register(formData.email, formData.password, formData.name)
-            console.log('Registration successful:', response)
-            navigate('/login')
+            const response = await login(formData.email, formData.password)
+            console.log('Login successful:', response)
+            localStorage.setItem('authToken', response.token)
+            navigate('/dashboard')
         } catch (error) {
-            console.error('Registration error:', error)
-            if (error.response.data.message === 'User already exists') {
-                alert('User already exists. Please try a different email.')
+            console.error('Login error:', error)
+            if (error.response?.data?.message === 'Invalid credentials') {
+                alert('Invalid email or password. Please try again.')
             }
-        }finally{
+        } finally {
             setIsSubmitting(false)
         }
     }
-    
-    return(
-        <div className="Register">
-            <div className="RegisterContents">
+
+    return (
+        <div className="Login">
+            <div className="LoginContents">
                 <Header size={75}>
-                    Register
+                    Login
                 </Header>
-                <Form items={registerFormData} onChange={ handleInputChange }/>
+                <Form items={loginFormData} onChange={handleInputChange} />
                 <Button 
-                width={300} 
-                onClick={ handleRegister }
-                disabled={ isSubmitting }
+                    width={300} 
+                    onClick={handleLogin}
+                    disabled={isSubmitting}
                 >
-                    {isSubmitting ? 'Submitting...' : 'Register'}
+                    {isSubmitting ? 'Logging in...' : 'Login'}
                 </Button>
-                <Paragraph onClick={() => navigate('/login')}>
-                    Already have an account? click here
+                <Paragraph onClick={() => navigate('/register')}>
+                    No account? click here
                 </Paragraph>
             </div>
         </div>

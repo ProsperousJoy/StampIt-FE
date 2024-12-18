@@ -1,17 +1,18 @@
 import './Form.scss';
 import InputText from '../../inputs/InputText/InputText';
 
-export default ({ items }) => {
+export default ({ items, onChange }) => {
   return (
     <div className="Form">
-      {items.map((placeholder, index) => (
+      {items.map((item, index) => (
         <div key={index} className="form-item">
           <InputText
             width={300}
-            placeholder={placeholder}
+            placeholder={item.placeholder}
+            onChange={onChange(item.key)}
           />
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
